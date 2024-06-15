@@ -1,0 +1,305 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CarCheck</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
+
+    <!-- Google Web Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <!-- Bootstrap and Custom Styles -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 135px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f7d721;
+            color: #000;
+            padding: 17px 30px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast">Checking Car, Please Wait...</div>
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
+        <a href="{{ url_for('index') }}" class="navbar-brand d-flex align-items-center border-end px-4 px-lg-5">
+            <h2 class="m-0 text-primary">CarCheck</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{{ url_for('index') }}" class="nav-item nav-link active">Dashboard</a>
+{#                <a href="{{ url_for('video_feed') }}" class="nav-item nav-link">Video Feed</a>#}
+                <a href="login.html" class="nav-item nav-link">
+                    <span class="btn btn-primary rounded-pill ms-5 px-5">Login
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i></span>
+                </a>
+                <a href="login.html" class="nav-item nav-link mx-5">
+                    <i class="fa-solid fa-circle-user fs-4 me-2"></i>AA
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Page Header -->
+    <div class="container-fluid page-header py-5 mb-5">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3">Dashboard</h1>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Video Feed Section -->
+    <div class="container">
+        <!-- Form to Check Car -->
+        <div class="row g-3 border rounded p-3 pb-4 mb-4">
+            <div class="col-9">
+                <div class="form-floating">
+                    <input type="text" class="form-control" id="car_number" placeholder="Car Number">
+                    <label for="car_number">Enter Car Number</label>
+                </div>
+            </div>
+            <div class="col-3">
+                <button id="checkCar" class="btn btn-primary rounded-4 py-3 col-12">Check Car</button>
+            </div>
+        </div>
+        <div class="text-center">
+                <h1>Video Feed with Detected Text</h1>
+                <img src="{{ url_for('video_feed') }}" alt="Video Feed" style="width: 50%;">
+                <div id="detected_text">Detected Text: Loading...</div>
+            </div>
+    </div>
+    <!-- Team Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+                <h6 class="text-primary">Cars</h6>
+                <h1 class="mb-4">Scanned Cares</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-1.jpg')}}" alt="">
+{#                            <div class="team-social w-25">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>Toyota</h5>
+                            <span> Urban Cruiser 2023</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-2.jpg')}}" alt="">
+{#                            <div class="team-social w-1">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa-solid fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa-solid fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>KIA</h5>
+                            <span>Serato 2019</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-3.jpg')}}" alt="">
+{#                            <div class="team-social w-25">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>Mesubishi</h5>
+                            <span>Laren X5 2008</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-4.jpg')}}" alt="">
+{#                            <div class="team-social w-25">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>Mercedes</h5>
+                            <span> Benz 2000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-5.jpg')}}" alt="">
+{#                            <div class="team-social w-25">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa-solid fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa-solid fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>Alpha Romeo</h5>
+                            <span>Juliet 2019</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="team-item rounded overflow-hidden">
+                        <div class="d-flex">
+                            <img class="img-fluid w-100" src="{{ url_for('static', filename='img/team-6.jpg')}}" alt="">
+{#                            <div class="team-social w-25">#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Edit"><i class="fa fa-pencil"></i></a>#}
+{#                                <a class="btn btn-lg-square btn-outline-primary rounded-circle mt-3" title="Delete"><i class="fa fa-trash-can"></i></a>#}
+{#                            </div>#}
+                        </div>
+                        <div class="p-4">
+                            <h5>BMW</h5>
+                            <span> X5 2008</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-body footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Address</h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <a class="btn btn-link" href="">About Us</a>
+                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="">Terms & Condition</a>
+                    <a class="btn btn-link" href="">Support</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Cars Gallery</h5>
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-1.jpg')}}"alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-2.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-3.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-4.jpg')}}"alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-5.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-6.jpg')}}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Newsletter</h5>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript for Toast and Detected Text -->
+    <script>
+        function updateDetectedText() {
+            fetch('/detected_text')
+                .then(response => response.text())
+                .then(text => {
+                    document.getElementById('car_number').value = text.replace(' ','');
+                });
+        }
+
+        setInterval(updateDetectedText, 1000); // Update detected text every second
+
+ document.getElementById("checkCar").onclick = function() {
+    var carNumber = document.getElementById("car_number").value.replace(' ', '');  // Get input value
+    var toast = document.getElementById("toast");  // Reference to toast element
+
+    // Create an AJAX request
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/check_car", true);  // Endpoint for AJAX call
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");  // Content type for POST data
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {  // Check if the request was successful
+            toast.style.display = "none";  // Hide the toast
+            var response = xhr.responseText;  // Get response from server
+
+            if (response === "car_found") {
+                // Redirect with a query string containing the car number
+                window.location.href = "/result?car_number=" + encodeURIComponent(carNumber);
+            } else {
+                alert("Car not found");  // Alert or take other action if car not found
+            }
+        }
+    };
+
+    // Send the car number to the server-side script
+    xhr.send("car_number=" + encodeURIComponent(carNumber));  // URL-encode the car number
+};
+    </script>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

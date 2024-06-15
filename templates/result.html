@@ -1,0 +1,291 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>CarCheck</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link href="{{ url_for('static', filename='img/favicon.ico') }}" rel="icon">
+
+    <!-- Google Web Fonts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+
+    <!-- Bootstrap and Custom Styles -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        #toast {
+            display: none;
+            position: fixed;
+            bottom: 135px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f7d721;
+            color: #000;
+            padding: 17px 30px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        .alert-danger {
+            color: #3a0005;
+            background-color: #ff7784;
+        }
+
+        .alert-success {
+            color: #fafafa;
+            background-color: #32c36c;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif!important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Toast Notification -->
+    <div id="toast">Checking Car, Please Wait...</div>
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
+        <a href="{{ url_for('index') }}" class="navbar-brand d-flex align-items-center border-end px-4 px-lg-5">
+            <h2 class="m-0 text-primary">CarCheck</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{{ url_for('index') }}" class="nav-item nav-link active">Dashboard</a>
+{#                <a href="{{ url_for('video_feed') }}" class="nav-item nav-link">Video Feed</a>#}
+                <a href="login.html" class="nav-item nav-link">
+                    <span class="btn btn-primary rounded-pill ms-5 px-5">Login
+                    <i class="fa-solid fa-arrow-right-to-bracket"></i></span>
+                </a>
+                <a href="login.html" class="nav-item nav-link mx-5">
+                    <i class="fa-solid fa-circle-user fs-4 me-2"></i>User
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- Page Header -->
+    <div class="container-fluid page-header py-5 mb-5">
+        <div class="container py-5">
+            <h1 class="display-3 text-white mb-3">Dashboard</h1>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+    <!-- Car Check Result -->
+    <div class="container-fluid bg-light overflow-hidden py-5 px-lg-0">
+        <div class="container feature px-lg-0">
+            <div class="mb-3">
+                {% if car_valid %}
+                <div class="alert alert-success d-flex align-items-center justify-content-center" role="alert">
+                    <div>السيارة مقبولة</div>
+                </div>
+                {% else %}
+                <div class="alert alert-danger d-flex align-items-center justify-content-center" role="alert">
+                    <div>السيارة غير مقبولة</div>
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Car Details -->
+            <div class="row g-0 mx-lg-0">
+                <div class="col-lg-6 feature-text mx-auto border rounded py-0 my-3" style="direction: rtl;">
+                    <div class="p-lg-5 ps-lg-0">
+                        <h6 class="text-primary">نتيجة البحث</h6>
+
+                        {% if car %}
+                        <h1 class="mb-4">{{ car.car_type }} - {{ car.car_license_expiration_date }}</h1>
+
+                        <div class="row g-4">
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa fa-car text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>نوع السيارة</p>
+                                        <h5>{{ car.car_type }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-user text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>مالك السيارة</p>
+                                        <h5>{{ car.citizen_name }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Other details from the car object -->
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-calendar-minus text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>مدة الرخصة</p>
+                                        <h5>{{ car.car_license_expiration_date }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>المدينة</p>
+                                        <h5>{{ car.car_city }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>الرقم القومى لصاحب السيارة</p>
+                                        <h5>{{ car.citizen_national_number }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>كدينة صاحب السيارة</p>
+                                        <h5>{{ car.citizen_city }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>عمر صاحب السيارة</p>
+                                        <h5>{{ car.citizen_age }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>وحدة المرور</p>
+                                        <h5>{{ car.traffic_location }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex alignments-center">
+                                    <div class="btn-lg-square bg-primary rounded-circle">
+                                        <i class="fa-solid fa-map-location-dot text-white"></i>
+                                    </div>
+                                    <div class="ms-4">
+                                        <p>مدينة وحدة المرور</p>
+                                        <h5>{{ car.traffic_city }}</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-body footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Address</h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Quick Links</h5>
+                    <a class="btn btn-link" href="">About Us</a>
+                    <a class="btn btn-link" href="">Contact Us</a>
+                    <a class="btn btn-link" href="">Our Services</a>
+                    <a class="btn btn-link" href="">Terms & Condition</a>
+                    <a class="btn btn-link" href="">Support</a>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Cars Gallery</h5>
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-1.jpg')}}"alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-2.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-3.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-4.jpg')}}"alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-5.jpg')}}" alt="">
+                        </div>
+                        <div class="col-4">
+                            <img class="img-fluid rounded" src="{{ url_for('static', filename='img/team-6.jpg')}}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-white mb-4">Newsletter</h5>
+                    <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                    <div class="position-relative mx-auto" style="max-width: 400px;">
+                        <input class="form-control border-0 w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
+                        <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
